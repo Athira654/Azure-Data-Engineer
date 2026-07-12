@@ -109,27 +109,39 @@ Handle pipeline failures using Stored Procedure.
 
 # 📷 Screens
 
-## Azure Data Factory Pipeline
+### 1. Azure Data Factory Pipeline
 
----
+<img src="Screenshots/Pipelineview.png" width="900"/>
 
-## Mapping Data Flow
+### 2. Raw JSON Data in Azure Data Lake
 
+<img src="Screenshots/json%20data.png" width="900"/>
 
----
+### 4. Mapping Data Flow
 
-## Azure SQL Database
+<img src="Screenshots/Dataflow.png" width="900"/>
 
----
+### 5. Azure SQL Database - AmazonProducts
 
-## Pipeline Monitoring
+<img src="Screenshots/Database-AmazonProducts.png" width="900"/>
 
+### 5. Azure SQL Database - PipelineErrorLog
+
+<img src="Screenshots/Database-ErrorPipeline.png" width="900"/>
+
+### 6. Pipeline Monitoring
+
+<img src="Screenshots/Monitoring.png" width="900"/>
+
+### 7. Error Handling
+
+<img src="Screenshots/ErrorLog.png" width="900"/>
 
 ---
 
 # 🎥 Demo Video
 
-Coming Soon...
+https://youtu.be/T6qaYsSJFM4
 
 ---
 
