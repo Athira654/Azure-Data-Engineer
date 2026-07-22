@@ -161,6 +161,20 @@ Features
 ---
 # 📷 Screens
 
+### 1. Dashboard
+
+<img src="screenshots/Dashboard-Paymentmethod.png" width="900"/>
+
+
+<img src="screenshots/Dashboard-TopRestaurants.png" width="900"/>
+
+
+<img src="screenshots/Dashboard-Deliverytimedistribution.png" width="900"/>
+
+
+<img src="screenshots/Dashboard-DailyFoodOrderCount.png" width="900"/>
+
+
 ---
 
 ## Skills Demonstrated
