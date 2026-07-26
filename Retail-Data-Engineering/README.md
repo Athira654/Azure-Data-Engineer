@@ -35,13 +35,98 @@ Microsoft Fabric OneLake Lakehouse Fabric Pipelines PySpark Delta Tables Power B
 
 📂 Dataset
 
-The project uses five datasets.
+The project uses four datasets.
 
-Dataset Description Customers Customer master information Orders Customer purchase history Payments Payment transactions Support Tickets Customer service records Web Activities Website browsing activity
+Dataset   Description 
+Customers Customer master information Orders Customer purchase history Payments Payment transactions Support Tickets Customer service records Web Activities Website browsing activity
 
 📁 Project Structure
 
-ecommerce-customer360-fabric/ │ ├── assets/ │ ├── architecture.png │ ├── dashboard.png │ └── pipeline.png │ ├── datasets/ │ ├── customers.parquet │ ├── orders.parquet │ ├── payments.parquet │ ├── support_tickets.parquet │ └── web_activities.parquet │ ├── notebooks/ │ ├── 01_Bronze_Load.ipynb │ ├── 02_Silver_Transformation.ipynb │ ├── 03_Gold_Customer360.ipynb │ └── 04_Data_Validation.ipynb │ ├── powerbi/ │ ├── Customer360.pbip │ └── Dashboard.png │ ├── docs/ │ ├── Architecture.md │ ├── Data_Dictionary.md │ └── Dashboard_Explanation.md │ ├── README.md └── LICENSE
+                           Retail Sales Analytics Architecture
+
+                                   +-------------------------+
+                                   |      GitHub JSON        |
+                                   |     Customers Data      |
+                                   +-----------+-------------+
+                                               |
+                                               |
++-------------------------+                     |
+| Azure SQL Database      |                     |
+| Products                |                     |
+| Stores                  |                     |
+| Transactions            |                     |
++-----------+-------------+                     |
+            \                                   /
+             \                                 /
+              \                               /
+               +-----------------------------+
+               |     Azure Data Factory      |
+               |      ETL Orchestration      |
+               +-------------+---------------+
+                             |
+                             |
+                  Azure Data Lake Storage Gen2
+                             |
+      +----------------------+----------------------+
+      |                      |                      |
+      |                    Bronze                  |
+      |             Raw Delta / Parquet            |
+      +----------------------+----------------------+
+                             |
+                      Azure Databricks
+                             |
+                  Data Cleaning & Validation
+                             |
+      +----------------------+----------------------+
+      |                      |                      |
+      |                    Silver                  |
+      |          Cleaned Delta Tables              |
+      +----------------------+----------------------+
+                             |
+                     Business Transformations
+                             |
+      +----------------------+----------------------+
+      |                      |                      |
+      |                     Gold                   |
+      |      Analytics Ready Sales Dataset         |
+      +----------------------+----------------------+
+                             |
+                    Azure SQL (RetailSalesGold)
+                             |
+                        Power BI Dashboard
+                             |
+               Business KPIs & Interactive Reports
+
+
+
+
+                      MEDALLION ARCHITECTURE
+
+             Bronze
+       -----------------
+       Raw Data
+       No Transformations
+       Historical Copy
+              |
+              |
+              V
+             Silver
+       -----------------
+       Data Cleaning
+       Remove Duplicates
+       Data Validation
+       Standardization
+       Feature Engineering
+              |
+              |
+              V
+              Gold
+       -----------------
+       Business Ready
+       Joined Dataset
+       KPI Calculations
+       Reporting Layer
+       
 
 🥉 Bronze Layer The Bronze layer stores raw data exactly as received from the source system.
 
@@ -65,6 +150,9 @@ Joined Tables
 
 Customers Orders Payments Support Tickets Web Activities Output Table
 
+
+
+
 gold_customer360 This table is used directly by Power BI.
 
 📊 Power BI Dashboard The dashboard provides a complete business overview.
@@ -75,31 +163,38 @@ KPI Cards Total Customers Total Orders Total Revenue Average Order Value Payment
 
 The dashboard helps answer questions such as:
 
-Which locations generate the highest revenue? Which payment methods are most popular? What is the payment success rate? Which customer devices are used the most? Which pages receive the highest traffic? Which support issues occur most frequently? What is the average order value? How many customers placed orders? 📐 Data Engineering Workflow Raw Data
+Which locations generate the highest revenue? Which payment methods are most popular? What is the payment success rate? Which customer devices are used the most? Which pages receive the highest traffic? Which support issues occur most frequently? What is the average order value? How many customers placed orders? 
 
-↓
+📐 Data Engineering Workflow 
 
-OneLake
-
-↓
-
-Fabric Pipeline
-
-↓
-
-Bronze Layer
-
-↓
-
+Azure SQL Database
+        │
+        │
+GitHub JSON
+        │
+        ▼
+Azure Data Factory
+        │
+        ▼
+Azure Data Lake (Bronze)
+        │
+        ▼
+Azure Databricks
+        │
+        ▼
 Silver Layer
-
-↓
-
+        │
+        ▼
 Gold Layer
+        │
+        ▼
+Azure SQL
+        │
+        ▼
+Power BI Dashboard
 
-↓
 
-Power BI Dashboard 📊 DAX Measures Revenue Revenue = SUM(gold_customer360[amount]) Total Customers Total Customers = DISTINCTCOUNT(gold_customer360[customer_id]) Total Orders Total Orders = DISTINCTCOUNT(gold_customer360[order_id]) Average Order Value Average Order Value = AVERAGE(gold_customer360[amount]) Payment Success % Payment Success % = DIVIDE( CALCULATE( COUNTROWS(gold_customer360), gold_customer360[payment_status]="Success" ), COUNTROWS(gold_customer360) ) Support Tickets Support Tickets = DISTINCTCOUNT(gold_customer360[ticket_id])
+📊 DAX Measures Revenue Revenue = SUM(gold_customer360[amount]) Total Customers Total Customers = DISTINCTCOUNT(gold_customer360[customer_id]) Total Orders Total Orders = DISTINCTCOUNT(gold_customer360[order_id]) Average Order Value Average Order Value = AVERAGE(gold_customer360[amount]) Payment Success % Payment Success % = DIVIDE( CALCULATE( COUNTROWS(gold_customer360), gold_customer360[payment_status]="Success" ), COUNTROWS(gold_customer360) ) Support Tickets Support Tickets = DISTINCTCOUNT(gold_customer360[ticket_id])
 
 🚀 Features
 
