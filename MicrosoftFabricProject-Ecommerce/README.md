@@ -106,6 +106,8 @@ Web Activities	Website browsing activity
         ├── README.md
         └── LICENSE
 
+---
+
 🥉 Bronze Layer
 The Bronze layer stores raw data exactly as received from the source system.
 
