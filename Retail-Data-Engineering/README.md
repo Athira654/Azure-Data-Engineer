@@ -1,9 +1,9 @@
-# 🚀 Retail Data Engineering Pipeline
+# 🚀 End-to-End Retail Sales Analytics Platform using Azure Data Engineering
 ---
 
 # 📌 Project Overview
 
-This project demonstrates an end-to-end Azure Data Engineering pipeline that extracts Amazon product data from the SearchAPI REST API, stores raw JSON data in Azure Data Lake Storage, transforms nested JSON using Azure Data Factory Mapping Data Flow, and loads clean data into Azure SQL Database.
+This project demonstrates an end-to-end Retail Sales Analytics platform by integrating data from multiple sources, implementing the Medallion Architecture, transforming data using Databricks, and delivering business insights through Power BI dashboards.
 
 The pipeline also includes monitoring and error handling using Azure Data Factory.
 
@@ -25,20 +25,26 @@ Technology Stack
 
 ---
 
-Dataset
-
-
-
-🛠 Technology Stack
-
-Microsoft Fabric OneLake Lakehouse Fabric Pipelines PySpark Delta Tables Power BI DAX GitHub
 
 📂 Dataset
 
 The project uses four datasets.
 
-Dataset   Description 
-Customers Customer master information Orders Customer purchase history Payments Payment transactions Support Tickets Customer service records Web Activities Website browsing activity
+Azure SQL Database
+
+  Products
+
+  Stores
+
+  Transactions
+
++
+
+GitHub JSON
+
+  Customers
+
+---
 
 📁 Project Structure
 
@@ -97,7 +103,7 @@ Customers Customer master information Orders Customer purchase history Payments 
                              |
                Business KPIs & Interactive Reports
 
-
+---
 
 
                       MEDALLION ARCHITECTURE
@@ -128,80 +134,163 @@ Customers Customer master information Orders Customer purchase history Payments 
        Reporting Layer
        
 
-🥉 Bronze Layer The Bronze layer stores raw data exactly as received from the source system.
+🥉 Bronze Layer – Raw Data Ingestion
+
+The Bronze layer stores raw data exactly as received from the source system.
 
 Activities Read Parquet files Validate schema Store raw data Preserve original records Bronze Tables
 
-Bronze_customers Bronze_orders Bronze_payments Bronze_supporttickets Bronze_web
+Stored every dataset separately inside the Bronze container and Convert into Delta Format
 
-🥈 Silver Layer
+---
+
+🥈 Silver Layer – Data Cleaning & Standardization
 
 The Silver layer performs data cleaning and transformation.
 
 Transformations include:
 
-Null handling Duplicate removal Standardizing values Data type conversion Date formatting Business rule implementation Derived columns Silver Tables
+Customer Notebook:
+Read Bronze customers
+Checked for missing values
+Removed duplicates
+Standardized data types
+Saved to Silver
 
-Silver_customers Silver_orders Silver_payments Silver_supporttickets Silver_web_act
+Product Notebook:
+Read Bronze products
+Removed duplicate products
+Validated product information
+Standardized column names
+Saved to Silver
 
-🥇 Gold Layer The Gold layer combines all business entities into a Customer 360 analytical model.
+Store Notebook:
+Read Bronze stores
+Removed duplicate store records
+Standardized location values
+Saved to Silver
+
+Transaction Notebook:
+Read Bronze transactions
+Converted transaction dates
+Checked numeric columns
+Removed duplicate transactions
+Saved cleaned data
+
+---
+
+🥇 Gold Layer – Business Data
+The Gold layer read all Silver tables and created a single business-ready dataset
 
 Joined Tables
 
-Customers Orders Payments Support Tickets Web Activities Output Table
+Transactions
+
++
+
+Products
+
++
+
+Customers
+
++
+
+Stores
 
 
+The final Gold dataset was saved as a Delta table in ADLS.
 
+Final Gold Table is "RetailSalesGold" This table is used directly by Power BI.
 
-gold_customer360 This table is used directly by Power BI.
+---
 
 📊 Power BI Dashboard The dashboard provides a complete business overview.
 
-KPI Cards Total Customers Total Orders Total Revenue Average Order Value Payment Success Rate Support Tickets Interactive Filters Order Date Location Order Status Visualizations Revenue Trend Orders by Status Payment Status Revenue by Location Payment Method Analysis Most Viewed Pages Resolution Status
+The Power BI dashboard provides a comprehensive overview of the retail business by visualizing sales performance, customer insights, product trends, and store analytics using the transformed Gold layer data.
 
-📈 Key Business Insights
+📌 KPI Cards
+Total Sales Amount
+Total Customers
+Total Transactions
+Total Quantity Sold
+Average Order Value
 
-The dashboard helps answer questions such as:
+📈 Visualizations
+Sales Trend Over Time
+Sales by Product Category
+Sales by Store
+Top Selling Products
+Customer Registration Trend
+Geographic Sales Distribution (Map)
+Revenue by Category
+Monthly Sales Analysis
 
-Which locations generate the highest revenue? Which payment methods are most popular? What is the payment success rate? Which customer devices are used the most? Which pages receive the highest traffic? Which support issues occur most frequently? What is the average order value? How many customers placed orders? 
+---
 
-📐 Data Engineering Workflow 
+📊 DAX Measures
 
-Azure SQL Database
-        │
-        │
-GitHub JSON
-        │
-        ▼
-Azure Data Factory
-        │
-        ▼
-Azure Data Lake (Bronze)
-        │
-        ▼
-Azure Databricks
-        │
-        ▼
-Silver Layer
-        │
-        ▼
-Gold Layer
-        │
-        ▼
-Azure SQL
-        │
-        ▼
-Power BI Dashboard
+Total Sales Amount = SUM(RetailSalesGold[SalesAmount]) 
 
+Total Customers = DISTINCTCOUNT(RetailSalesGold[CustomerID])
 
-📊 DAX Measures Revenue Revenue = SUM(gold_customer360[amount]) Total Customers Total Customers = DISTINCTCOUNT(gold_customer360[customer_id]) Total Orders Total Orders = DISTINCTCOUNT(gold_customer360[order_id]) Average Order Value Average Order Value = AVERAGE(gold_customer360[amount]) Payment Success % Payment Success % = DIVIDE( CALCULATE( COUNTROWS(gold_customer360), gold_customer360[payment_status]="Success" ), COUNTROWS(gold_customer360) ) Support Tickets Support Tickets = DISTINCTCOUNT(gold_customer360[ticket_id])
+Total Transactions = DISTINCTCOUNT(RetailSalesGold[TransactionID])
+
+Total Quantity Sold = SUM(RetailSalesGold[Quantity])
+
+Average Order Value = AVERAGE(RetailSalesGold[SalesAmount])
+
+---
+📷 Screens
+
+### 1. Azure Data Factory Pipeline
+
+<img src="Screenshots/CopyActivityPipeline.png" width="900"/>
+
+### 2. Raw Data in Azure Data Lake
+
+<img src="Screenshots/BronzeDelta.png" width="900"/>
+
+### 3. Azure SQL Database - Products
+
+<img src="Screenshots/productsTable.png" width="900"/>
+
+### 4. Azure SQL Database - Stores
+
+<img src="Screenshots/storesTable.png" width="900"/>
+
+### 5. Azure SQL Database - Transactions
+
+<img src="Screenshots/transactionsTable.png" width="900"/>
+
+### 6. Resources used
+
+<img src="Screenshots/Project resources under the  Resource group.png" width="900"/>
+
+### 7. Dashboard view
+
+<img src="Screenshots/Retail sales analytics dashboard.png" width="900"/>
+
+<img src="Screenshots/Category-wise Sales Map.png" width="900"/>
+
+---
 
 🚀 Features
 
-End-to-End Data Engineering Project Microsoft Fabric Pipeline Lakehouse Architecture Medallion Architecture PySpark Data Transformation Delta Tables Customer 360 Analytics Power BI Dashboard Interactive Filters Business KPIs
+End-to-End Data Engineering Project Data factory Pipeline Lakehouse Architecture Medallion Architecture PySpark Data Transformation Delta Tables Retail Sales Analytics Power BI Dashboard Business KPIs
+
+---
 
 🎓 Skills Demonstrated
 
-Data Engineering Microsoft Fabric Data Pipelines OneLake Lakehouse Delta Lake PySpark Data Transformation Data Cleaning Power BI DAX Data Visualization Business Intelligence
+Data Engineering Data Transformation Data Cleaning Power BI DAX Data Visualization Business Intelligence
+
+---
+
+# 👩‍💻 Author
+
+**Athira N K**
+
+Azure Data Engineer
 
 
