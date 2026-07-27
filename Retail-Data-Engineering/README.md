@@ -11,7 +11,7 @@ The pipeline also includes monitoring and error handling using Azure Data Factor
 
 # 🎯 Project Goal
 
-Build an automated ETL pipeline that:
+Build and implement a scalable end-to-end Azure Data Engineering pipeline that integrates retail sales data from multiple sources, applies data transformations using the Medallion Architecture, and delivers business-ready insights through an interactive Power BI dashboard.
 
 
 ---
@@ -48,61 +48,61 @@ GitHub JSON
 
 📁 Project Structure
 
-                           Retail Sales Analytics Architecture
-
-                                   +-------------------------+
-                                   |      GitHub JSON        |
-                                   |     Customers Data      |
-                                   +-----------+-------------+
-                                               |
-                                               |
-+-------------------------+                     |
-| Azure SQL Database      |                     |
-| Products                |                     |
-| Stores                  |                     |
-| Transactions            |                     |
-+-----------+-------------+                     |
-            \                                   /
-             \                                 /
-              \                               /
-               +-----------------------------+
-               |     Azure Data Factory      |
-               |      ETL Orchestration      |
-               +-------------+---------------+
-                             |
-                             |
-                  Azure Data Lake Storage Gen2
-                             |
-      +----------------------+----------------------+
-      |                      |                      |
-      |                    Bronze                  |
-      |             Raw Delta / Parquet            |
-      +----------------------+----------------------+
-                             |
-                      Azure Databricks
-                             |
-                  Data Cleaning & Validation
-                             |
-      +----------------------+----------------------+
-      |                      |                      |
-      |                    Silver                  |
-      |          Cleaned Delta Tables              |
-      +----------------------+----------------------+
-                             |
-                     Business Transformations
-                             |
-      +----------------------+----------------------+
-      |                      |                      |
-      |                     Gold                   |
-      |      Analytics Ready Sales Dataset         |
-      +----------------------+----------------------+
-                             |
-                    Azure SQL (RetailSalesGold)
-                             |
-                        Power BI Dashboard
-                             |
-               Business KPIs & Interactive Reports
-
+                                      Retail Sales Analytics Architecture
+          
+                                             +-------------------------+
+                                             |      GitHub JSON        |
+                                             |     Customers Data      |
+                                             +-----------+-------------+
+                                                         |
+                                                         |
+          +-------------------------+                     |
+          | Azure SQL Database      |                     |
+          | Products                |                     |
+          | Stores                  |                     |
+          | Transactions            |                     |
+          +-----------+-------------+                     |
+                      \                                   /
+                       \                                 /
+                        \                               /
+                         +-----------------------------+
+                         |     Azure Data Factory      |
+                         |      ETL Orchestration      |
+                         +-------------+---------------+
+                                       |
+                                       |
+                            Azure Data Lake Storage Gen2
+                                       |
+                +----------------------+----------------------+
+                |                      |                      |
+                |                    Bronze                  |
+                |             Raw Delta / Parquet            |
+                +----------------------+----------------------+
+                                       |
+                                Azure Databricks
+                                       |
+                            Data Cleaning & Validation
+                                       |
+                +----------------------+----------------------+
+                |                      |                      |
+                |                    Silver                  |
+                |          Cleaned Delta Tables              |
+                +----------------------+----------------------+
+                                       |
+                               Business Transformations
+                                       |
+                +----------------------+----------------------+
+                |                      |                      |
+                |                     Gold                   |
+                |      Analytics Ready Sales Dataset         |
+                +----------------------+----------------------+
+                                       |
+                              Azure SQL (RetailSalesGold)
+                                       |
+                                  Power BI Dashboard
+                                       |
+                         Business KPIs & Interactive Reports
+     
 ---
 
 
