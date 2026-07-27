@@ -1,4 +1,4 @@
-# 🚀 End-to-End Retail Sales Analytics Platform using Azure Data Engineering
+# 🚀 End-to-End Retail Sales Analytics Platform using Azure
 ---
 
 # 📌 Project Overview
