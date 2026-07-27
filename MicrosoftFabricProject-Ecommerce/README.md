@@ -239,11 +239,11 @@ How many customers placed orders?
        
 📊 DAX Measures
 
-Revenue = SUM(gold_customer360[amount])
-Total Customers = DISTINCTCOUNT(gold_customer360[customer_id])
-Total Orders = DISTINCTCOUNT(gold_customer360[order_id])
-Average Order Value = AVERAGE(gold_customer360[amount])
-Payment Success % = DIVIDE(CALCULATE(COUNTROWS(gold_customer360),gold_customer360[payment_status]="Success"),COUNTROWS(gold_customer360))
+Revenue = SUM(gold_customer360[amount]) <br>
+Total Customers = DISTINCTCOUNT(gold_customer360[customer_id]) <br>
+Total Orders = DISTINCTCOUNT(gold_customer360[order_id]) <br>
+Average Order Value = AVERAGE(gold_customer360[amount]) <br>
+Payment Success % = DIVIDE(CALCULATE(COUNTROWS(gold_customer360),gold_customer360[payment_status]="Success"),COUNTROWS(gold_customer360)) <br>
 Support Tickets = DISTINCTCOUNT(gold_customer360[ticket_id])
 
 ---
