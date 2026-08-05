@@ -7,9 +7,5 @@ Analyze Indian Railway train delays to identify delay patterns, station performa
 
 ---
 
-# 🎯 Project Goal
-
-Build and implement a scalable end-to-end Azure Data Engineering pipeline that integrates retail sales data from multiple sources, applies data transformations using the Medallion Architecture, and delivers business-ready insights through an interactive Power BI dashboard.
-
 
 ---
